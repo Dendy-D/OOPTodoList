@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+body {
+  height: 100vh;
+}
+
+button {
+  border: none;
+  outline: none;
+}
