@@ -1,2 +1,2 @@
 # OOPTodoList
-todo list with using classes writing on vanilla js to practice SOLID principles
+A to-do list built with vanilla JavaScript using classes, designed to practice SOLID principles.
