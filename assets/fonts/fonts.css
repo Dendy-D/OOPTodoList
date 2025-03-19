@@ -2,7 +2,9 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: url('./Roboto-400.woff') format('woff'),
+  font-display: swap;
+  src: local('Roboto'), /* Check for local Roboto, if user has it locally then don't download anything*/
+       url('./Roboto-400.woff') format('woff'),
        url('./Roboto-400.woff2') format('woff2');
 }
 
@@ -10,6 +12,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
+  font-display: swap;
   src: url('./Inter-Medium.woff2') format('woff2');
 }
 
@@ -17,6 +20,7 @@
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
+  font-display: swap;
   src: url('./Inter-SemiBold.woff2') format('woff2');
 }
 
@@ -24,5 +28,6 @@
   font-family: 'Montserrat';
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: url('./Montserrat-Bold.ttf') format('truetype');
 }
