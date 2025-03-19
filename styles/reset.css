@@ -12,4 +12,11 @@ body {
 button {
   border: none;
   outline: none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+input, textarea {
+  border: none;
+  outline: none;
 }

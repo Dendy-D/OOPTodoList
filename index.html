@@ -6,19 +6,48 @@
     <title>Todo</title>
     <link rel="stylesheet" href="./styles/reset.css" />
     <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script defer type="module" src="./scripts/app.js"></script>
   </head>
   <body>
     <div class="todo">
-      <div class="task-bar">
-        <button class="all-tasks-button">
+      <div class="folder-panel no-folders" id="folder-panel">
+        <button class="show-all-tasks-btn" id="show-all-tasks-btn">
           <svg class="all-tasks-icon" width="14" height="12">
             <use href="./assets/icons/icons.svg#allTasksIcon"></use>
           </svg>
-          Все задачи
+          All tasks
         </button>
+        <div class="add-folder">
+          <button class="add-folder-btn" id="add-folder-modal-open-btn">
+            <svg width="12" height="12" fill="none">
+              <use href="./assets/icons/icons.svg#plusIcon"></use>
+            </svg>
+            Add folder
+          </button>
+          <div class="add-folder-modal hidden" id="add-folder-modal">
+            <svg class="close-icon" width="21" height="21" fill="none" id="add-folder-modal-close-btn">
+              <use href="./assets/icons/icons.svg#closeIcon"></use>
+            </svg>
+            <input type="text" class="folder-name-input" placeholder="Folder name" id="folder-name-input">
+            <div class="colors" id="colors">
+              <div class="gray-folder-color"></div>
+              <div class="emerald-folder-color"></div>
+              <div class="blue-folder-color"></div>
+              <div class="pink-folder-color"></div>
+              <div class="celadon-folder-color"></div>
+              <div class="violet-folder-color"></div>
+              <div class="black-folder-color"></div>
+              <div class="red-folder-color"></div>
+            </div>
+            <button class="add-btn" id="add-folder-btn">Add</button>
+          </div>
+        </div>
       </div>
-      <div class="task-content">ahaha</div>
+      <div class="task-content no-tasks">
+        <span class="no-tasks-span">No tasks available</span>
+      </div>
     </div>
-    <script src="./app.js"></script>
   </body>
 </html>

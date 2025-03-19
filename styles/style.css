@@ -1,11 +1,12 @@
 @import url('../assets/fonts/fonts.css');
 
 body {
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e5e5e5;
+  background-color: #ececec;
+  font-size: 14px;
 }
 
 .todo {
@@ -14,21 +15,277 @@ body {
   display: flex;
 }
 
-.task-bar {
+.folder-panel {
   background-color: #f4f6f8;
-  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  align-items: start;
+  min-width: 200px;
+  padding: 58px 20px 0 20px;
 }
 
-.all-tasks-button {}
+.no-folders {
+  padding-top: 32px;
+  align-items: center;
+}
+
+.no-folders .show-all-tasks-btn {
+  display: none;
+}
+
+.show-all-tasks-btn {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 40px 8px 12px;
+  border-radius: 4px;
+  transition: color 0.1s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.show-all-tasks-btn:hover {
+  background-color: white;
+}
+
+.folder-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: -10px;
+  max-height: 260px;
+  height: 260px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.folder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  padding: 10px 14px 10px 12px;
+  width: 160px;
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.folder:hover {
+  background-color: white;
+  box-shadow: 0px 2px 10px 0px #0000000d;
+}
+
+.folder:hover .remove-folder-btn {
+  display: block;
+}
+
+.remove-folder-btn {
+  position: absolute;
+  right: 14px;
+  width: 18px;
+  height: 18px;
+  padding: 4px;
+  color: #e3e3e3;
+  display: none;
+  transition: transform 0.1s ease, color 0.1s ease;
+}
+
+.remove-folder-btn:hover {
+  transform: scale(1.1);
+  color: #d1d1d1;
+}
+
+.folder-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.folder-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.add-folder {
+  position: relative;
+}
+
+.add-folder-btn {
+  color: #767676;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  transition: color 0.1s ease;
+}
+
+.add-folder-btn:hover {
+  color: #979797;
+}
+
+.add-folder-modal {
+  width: 235px;
+  height: 148px;
+  background-color: white;
+  border-radius: 10px;
+  position: absolute;
+  top: 30px;
+  box-shadow: 0px 6px 10px 0px #0000000d;
+  padding: 18px 18px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+.close-icon {
+  position: absolute;
+  z-index: 1;
+  right: -5px;
+  top: -5px;
+  cursor: pointer;
+  color: #5c5c5c;
+  transition: color 0.1s ease;
+}
+
+.close-icon:hover {
+  color: #7e7e7e;
+}
+
+.folder-name-input {
+  border: 1px solid #efefef;
+  width: 200px;
+  height: 32px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+}
+
+.folder-name-input::placeholder {
+  font-size: 14px;
+  font-family: 'Inter' sans-serif;
+  font-weight: 600;
+  color: #c7c7c7;
+}
+
+.folder-name-input:focus {
+  border: 1px solid #12a8ff;
+}
+
+.input-validation-error {
+  border: 1px solid #ff4d4f;
+}
+
+.colors {
+  display: flex;
+  justify-content: space-between;
+}
+
+.colors > div {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.gray-folder-color {
+  background-color: #c9d1d3;
+}
+.emerald-folder-color {
+  background-color: #42b883;
+}
+.blue-folder-color {
+  background-color: #64c4ed;
+}
+.pink-folder-color {
+  background-color: #ffbbcc;
+}
+.celadon-folder-color {
+  background-color: #b6e6bd;
+}
+.violet-folder-color {
+  background-color: #c355f5;
+}
+.black-folder-color {
+  background-color: #09011a;
+}
+.red-folder-color {
+  background-color: #ff6464;
+}
+
+.selected-color {
+  border: 2px solid #525252;
+}
+
+.add-btn {
+  background-color: #4dd599;
+  border-radius: 4px;
+  height: 37px;
+  padding: 10px;
+  color: white;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.1s ease;
+}
+
+.add-btn:hover {
+  background-color: #6fdfae;
+}
 
 .task-content {
-  flex-shrink: 3;
+  flex-shrink: 1;
   background-color: white;
   width: 100%;
 }
 
-h1 {
-  font-family: 'Montserrat';
-  font-weight: 700;
+.no-tasks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-tasks-span {
+  color: #c9d1d3;
+  font-family: 'Montserrat', sans-serif;
   font-size: 32px;
+}
+
+.validation-error-toast {
+  background: #fff0f0 !important;
+  border: 1px solid #fce4e4 !important;
+  color: red !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  min-width: 300px !important;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.validation-success-toast {
+  background: #ecfdf3 !important;
+  border: 1px solid #cafadf !important;
+  color: #008a2e !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 14px !important;
+  min-width: 300px !important;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
