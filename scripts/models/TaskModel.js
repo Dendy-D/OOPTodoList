@@ -26,4 +26,12 @@ export class TaskModel {
   deprioritize() {
     this.isImportant = false;
   }
+
+  static validate(taskName) {
+    const errors = [];
+
+    if (!taskName) errors.push({ name: 'taskName', description: 'Task name is required.' });
+
+    return errors;
+  }
 }

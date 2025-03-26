@@ -1,4 +1,4 @@
-import { TaskModel } from './TaskModel';
+import { TaskModel } from './TaskModel.js';
 
 export class DeadlineTaskModel extends TaskModel {
   constructor(id, title, description, dueDate) {

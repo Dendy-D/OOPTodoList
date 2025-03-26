@@ -11,8 +11,8 @@ export class FolderModel {
   static validate(folderName, color) {
     const errors = [];
 
-    if (!folderName) errors.push({ field: 'folderName', name: 'Folder name is required.' });
-    if (!color) errors.push({ field: 'color', name: 'Color selection is required.' });
+    if (!folderName) errors.push({ name: 'folderName', description: 'Folder name is required.' });
+    if (!color) errors.push({ name: 'color', description: 'Color selection is required.' });
 
     return errors;
   }
