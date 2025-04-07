@@ -47,6 +47,7 @@ body {
 
 .show-all-tasks-btn:hover {
   background-color: white;
+  box-shadow: 0px 2px 10px 0px #00000008;
 }
 
 .folder-list {
@@ -57,6 +58,17 @@ body {
   height: 260px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.folder-list::-webkit-scrollbar {
+  width: 4px;
+  background-color: #ebebeb;
+}
+
+.folder-list::-webkit-scrollbar-thumb {
+  background: #b6b6b6;
+  border-radius: 2px;
+  width: 2px;
 }
 
 .folder {
@@ -81,7 +93,18 @@ body {
   display: block;
 }
 
+.chosenFolder {
+  background-color: white;
+  box-shadow: 0px 2px 10px 0px #0000000d;
+}
+
+.chosenFolder .remove-folder-btn {
+  display: block;
+}
+
 .remove-folder-btn {
+  width: 10px;
+  height: 10px;
   position: absolute;
   right: 14px;
   width: 18px;
@@ -107,7 +130,7 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 100px;
+  max-width: 95px;
 }
 
 .add-folder {
@@ -144,10 +167,6 @@ body {
   gap: 15px;
 }
 
-.hidden {
-  display: none;
-}
-
 .close-icon {
   position: absolute;
   z-index: 1;
@@ -182,10 +201,6 @@ body {
   border: 1px solid #12a8ff;
 }
 
-.input-validation-error {
-  border: 1px solid #ff4d4f;
-}
-
 .colors {
   display: flex;
   justify-content: space-between;
@@ -201,51 +216,89 @@ body {
 .gray-folder-color {
   background-color: #c9d1d3;
 }
+.gray-text-color {
+  color: #c9d1d3;
+}
+
 .emerald-folder-color {
   background-color: #42b883;
 }
+.emerald-text-color {
+  color: #42b883;
+}
+
 .blue-folder-color {
   background-color: #64c4ed;
 }
+.blue-text-color {
+  color: #64c4ed;
+}
+
 .pink-folder-color {
   background-color: #ffbbcc;
 }
+.pink-text-color {
+  color: #ffbbcc;
+}
+
 .celadon-folder-color {
   background-color: #b6e6bd;
 }
+.celadon-text-color {
+  color: #b6e6bd;
+}
+
 .violet-folder-color {
   background-color: #c355f5;
 }
+.violet-text-color {
+  color: #c355f5;
+}
+
 .black-folder-color {
   background-color: #09011a;
 }
+.black-text-color {
+  color: #09011a;
+}
+
 .red-folder-color {
   background-color: #ff6464;
+}
+.red-text-color {
+  color: #ff6464;
 }
 
 .selected-color {
   border: 2px solid #525252;
 }
 
-.add-btn {
-  background-color: #4dd599;
+.btn {
   border-radius: 4px;
   height: 37px;
   padding: 10px;
-  color: white;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
+  font-size: 14px;
   transition: background-color 0.1s ease;
+}
+
+.add-btn {
+  background-color: #4dd599;
+  color: white;
 }
 
 .add-btn:hover {
   background-color: #6fdfae;
 }
 
-.task-content {
+/* Styles for tasks */
+
+.task-screen {
   flex-shrink: 1;
   background-color: white;
   width: 100%;
+  padding: 56px 70px 60px 56px;
 }
 
 .no-tasks {
@@ -259,6 +312,173 @@ body {
   font-family: 'Montserrat', sans-serif;
   font-size: 32px;
 }
+
+.folder-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.folder-title h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 380px;
+}
+
+.task-hr {
+  border: 1px solid #f2f2f2;
+  margin: 20px 0 20px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.task-content-wrapper {
+  display: flex;
+  gap: 15px;
+}
+
+.task-name {
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+}
+
+.edit-icon {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  color: #dfdfdf;
+  transition: color 0.1s ease;
+}
+
+.edit-icon:hover {
+  color: #c7c7c7;
+}
+
+.incomplete-icon {
+  cursor: pointer;
+  fill: none;
+  width: 20px;
+  height: 20px;
+}
+
+.add-task-form-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #b4b4b4;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.1s ease;
+}
+
+.add-task-form-btn:hover {
+  color: #c7c7c7;
+}
+
+.add-task-form-btn-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.add-task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.task-content-input {
+  border: 1px solid #EFEFEF;
+  border-radius: 4px;
+  height: 38px;
+  padding: 0 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
+
+.task-content-input::placeholder {
+  color: #C7C7C7;
+  font-weight: 600;
+}
+
+.task-content-input:focus {
+  border: 1px solid #12a8ff;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.add-task-btn {
+  background-color: #4dd599;
+  color: white;
+  padding: 10px 20px;
+}
+
+.add-task-btn:hover {
+  background-color: #6fdfae;
+}
+
+.cancel-btn {
+  background-color: #F4F6F8;
+  color: #9C9C9C;
+  padding: 10px 20px;
+}
+
+.cancel-btn:hover {
+  background-color: #ebebeb;
+}
+
+.task:hover .remove-task-btn {
+  display: block;
+}
+
+.remove-task-btn {
+  width: 12px;
+  height: 12px;
+  color: #e3e3e3;
+  cursor: pointer;
+  display: none;
+  transition: transform 0.1s ease, color 0.1s ease;
+}
+
+.remove-task-btn:hover {
+  transform: scale(1.1);
+  color: #d1d1d1;
+}
+
+.rename-folder-input {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 32px;
+  width: 380px;
+}
+
+.empty-task-list {
+  margin-bottom: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.input-validation-error {
+  border: 1px solid #ff4d4f;
+}
+
+/* Styles for toasters */
 
 .validation-error-toast {
   background: #fff0f0 !important;
