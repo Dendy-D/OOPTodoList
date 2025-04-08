@@ -30,6 +30,19 @@ class FolderStore {
   updateFoldersFromStorage() {
     this.#folders = this.#storage.getAllItems();
   }
+
+  hasFolderWithName(title) {
+    return this.#folders.some((folder) => folder.title === title);
+  }
+
+  renameFolder(folderId, newName) {
+    this.#folders.map((folder) => {
+      if (folderId === folder.id) {
+        folder.title = newName;
+      }
+      return folder;
+    })
+  }
 }
 
 export default new FolderStore();
