@@ -1,6 +1,7 @@
 export class View {
   constructor() {
-    this._handlers = {};
+    this._handlers = new Map();
+    this._handlerRefs = new WeakMap();
     if (new.target === View) {
       throw new Error('View is an abstract class and cannot be instantiated directly.');
     }
@@ -35,30 +36,32 @@ export class View {
     svg.append(use);
     return svg;
   }
-
+ 
   setHandler(key, element, eventType, handler, options = {}) {
     if (!key || !element || !eventType) {
       throw new Error('Missing required arguments in setHandler');
     }
 
-    if (this._handlers[key]) {
-      const { element: prevElement, eventType: prevType, handler: prevHandler } = this._handlers[key];
-      prevElement.removeEventListener(prevType, prevHandler);
+    if (this._handlers.has(key)) {
+      const { element: prevEl, eventType: prevType, handler: prevHandler } = this._handlers.get(key);
+      prevEl.removeEventListener(prevType, prevHandler, this._handlerRefs.get(prevHandler));
     }
 
     if (handler) {
+      this._handlers.set(key, { element, eventType, handler });
+      this._handlerRefs.set(handler, options);
+      
       element.addEventListener(eventType, handler, options);
-      this._handlers[key] = { element, eventType, handler, options };
     } else {
-      delete this._handlers[key];
+      this._handlers.delete(key);
     }
   }
 
   clearAllHandlers() {
-    Object.keys(this._handlers).forEach((key) => {
-      const { element, eventType, handler } = this._handlers[key];
-      element.removeEventListener(eventType, handler);
+    this._handlers.forEach(({ element, eventType, handler }, key) => {
+      element.removeEventListener(eventType, handler, this._handlerRefs.get(handler));
     });
-    this._handlers = {};
+    this._handlers.clear();
+    this._handlerRefs = new WeakMap();
   }
 }
