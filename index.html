@@ -11,7 +11,7 @@
     <script defer type="module" src="./scripts/app.js"></script>
   </head>
   <body>
-    <div class="todo">
+    <div class="todo" id="todo">
       <div class="folder-panel no-folders" id="folder-panel">
         <button class="show-all-tasks-btn" id="show-all-tasks-btn">
           <svg class="all-tasks-icon" width="14" height="12">
@@ -41,13 +41,11 @@
               <div class="black-folder-color"></div>
               <div class="red-folder-color"></div>
             </div>
-            <button class="add-btn" id="add-folder-btn">Add</button>
+            <button class="btn add-btn" id="add-folder-btn">Add</button>
           </div>
         </div>
       </div>
-      <div class="task-content no-tasks">
-        <span class="no-tasks-span">No tasks available</span>
-      </div>
+      <div class="task-screen no-tasks" id="task-screen"></div>
     </div>
   </body>
 </html>

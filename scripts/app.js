@@ -1,10 +1,24 @@
-// import { TaskModel } from './models/TaskModel.js';
 import { FolderController } from './controllers/FolderController.js';
 import { FolderModel } from './models/FolderModel.js';
 import { FolderView } from './views/FolderView.js';
 import FolderStore from './stores/FolderStore.js';
 
-const folderView = new FolderView();
+import { RenameMediator } from './mediators/RenameMediator.js';
 
-const folderController = new FolderController(FolderModel, FolderStore, folderView);
+import { TaskController } from './controllers/TaskController.js';
+import { TaskModel } from './models/TaskModel.js';
+import { TaskView } from './views/TaskView.js';
+import TaskStore from './stores/TaskStore.js';
+import { TaskFactory } from './factories/TaskFactory.js';
+
+const taskView = new TaskView();
+const taskController = new TaskController(TaskModel, TaskStore, taskView, TaskFactory);
+
+const folderView = new FolderView();
+const folderController = new FolderController(FolderModel, FolderStore, folderView, taskController);
+
+const renameMediator = new RenameMediator(folderController, taskController);
+
+taskController.setRenameMediator(renameMediator);
+
 folderController.init();

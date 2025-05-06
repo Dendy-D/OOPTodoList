@@ -15,6 +15,10 @@ body {
   display: flex;
 }
 
+.full-height-mode {
+  height: 100%;
+}
+
 .folder-panel {
   background-color: #f4f6f8;
   display: flex;
@@ -22,7 +26,7 @@ body {
   gap: 38px;
   align-items: start;
   min-width: 200px;
-  padding: 58px 20px 0 20px;
+  padding: 58px 20px 58px 20px;
 }
 
 .no-folders {
@@ -43,6 +47,7 @@ body {
   border-radius: 4px;
   transition: color 0.1s ease;
   font-family: 'Inter', sans-serif;
+  width: 160px;
 }
 
 .show-all-tasks-btn:hover {
@@ -54,8 +59,7 @@ body {
   display: flex;
   flex-direction: column;
   margin-top: -10px;
-  max-height: 260px;
-  height: 260px;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -299,6 +303,19 @@ body {
   background-color: white;
   width: 100%;
   padding: 56px 70px 60px 56px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.task-screen::-webkit-scrollbar {
+  width: 4px;
+  background-color: #ebebeb;
+}
+
+.task-screen::-webkit-scrollbar-thumb {
+  background: #b6b6b6;
+  border-radius: 2px;
+  width: 2px;
 }
 
 .no-tasks {
@@ -336,6 +353,9 @@ body {
 .task-list {
   display: flex;
   flex-direction: column;
+}
+
+.last-task {
   margin-bottom: 10px;
 }
 
@@ -343,16 +363,26 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  padding-right: 5px;
+  align-items: center;
 }
 
 .task-content-wrapper {
   display: flex;
+  align-items: center;
   gap: 15px;
 }
 
 .task-name {
   font-size: 16px;
   font-family: 'Inter', sans-serif;
+  max-width: 350px;
+  word-break: break-all;
+}
+
+.task-completed {
+  text-decoration: line-through;
+  color:rgba(0, 0, 0, 0.3)
 }
 
 .edit-icon {
@@ -368,6 +398,20 @@ body {
 }
 
 .incomplete-icon {
+  cursor: pointer;
+  fill: none;
+  width: 20px;
+  height: 20px;
+}
+
+.complete-hover-icon {
+  cursor: pointer;
+  fill: none;
+  width: 20px;
+  height: 20px;
+}
+
+.complete-icon {
   cursor: pointer;
   fill: none;
   width: 20px;
@@ -466,10 +510,6 @@ body {
   width: 380px;
 }
 
-.empty-task-list {
-  margin-bottom: 0;
-}
-
 .hidden {
   display: none;
 }
@@ -478,6 +518,18 @@ body {
   border: 1px solid #ff4d4f;
 }
 
+.multiple-task-panel {
+  margin-bottom: 50px;
+}
+
+.multiple-task-list {
+  max-height: none;
+  overflow: hidden;
+}
+
+.multiple-add-folder-modal {
+  top: -160px;
+}
 /* Styles for toasters */
 
 .validation-error-toast {
