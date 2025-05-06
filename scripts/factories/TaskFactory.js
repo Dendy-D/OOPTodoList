@@ -4,8 +4,8 @@ import { DeadlineTaskModel } from '../models/DeadlineTaskModel.js';
 import { TaskTypes } from '../types/TaskTypes.js';
 
 export class TaskFactory {
-  static createTask(title, description = '', dueDate = null, type = 'normal') {
-    const task = { id: crypto.randomUUID(), title, description };
+  static createTask({ title, description = '', folderId, dueDate = null, type = 'normal' }) {
+    const task = { id: crypto.randomUUID(), title, description, folderId };
     switch (type) {
       case TaskTypes.RECURRING:
         return new RecurringTaskModel(task);
