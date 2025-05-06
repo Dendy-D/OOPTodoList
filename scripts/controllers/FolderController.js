@@ -1,14 +1,16 @@
 import { ToastManager } from '../utils/ToastManager.js';
-import { TOAST_TYPES } from '../constants/constants.js';
+import { TOAST_TYPES } from '../constants/index.js';
 
 export class FolderController {
-  constructor(model, store, view) {
+  constructor(model, store, view, taskController) {
     this.model = model;
     this.store = store;
     this.view = view;
+    this.taskController = taskController;
 
     this.handleEnterKeyPressed = this.handleEnterKeyPressed.bind(this);
     this.handleEscapeKeyPressed = this.handleEscapeKeyPressed.bind(this);
+    this.renameFolder = this.renameFolder.bind(this);
     this.toastManagerError = new ToastManager(2, TOAST_TYPES.ERROR, 'error');
     this.toastManagerSuccess = new ToastManager(1, TOAST_TYPES.SUCCESS, 'success');
   }
@@ -16,6 +18,7 @@ export class FolderController {
   init() {
     this.setUpEventListeners();
     if (this.store.folders.length) this.renderFolderList();
+    this.taskController.renderNoTasksSpan();
 
     console.log('Folder controller was initialized');
   }
@@ -27,6 +30,8 @@ export class FolderController {
     this.view.setAddFolderHandler(() => this.addFolder());
     this.view.setFolderNameInputHandler('focus', () => this.focusFolderNameInput());
     this.view.setRemoveFolderHandler((folderId, folderElement) => this.removeFolder(folderId, folderElement));
+    this.view.setChooseFolderHandler((folderId) => this.chooseFolder(folderId));
+    this.view.setShowAllTasksHandler(() => this.showAllTasks())
   }
 
   showAddFolderModal() {
@@ -62,21 +67,31 @@ export class FolderController {
     this.view.removeValidationErrorInput();
   }
 
+  validateAddingFolder(validationErrors) {
+    validationErrors.forEach((error) => {
+      if (error.name === 'color') this.toastManagerError.showToast(error.description);
+      if (error.name === 'folderName') {
+        this.toastManagerError.showToast(error.description);
+        this.view.validationErrorInput();
+      }
+    });
+  }
+
   addFolder() {
     const folderName = this.view.getFolderName();
     const color = this.view.getSelectedColor();
 
     const validationErrors = this.model.validate(folderName, color);
     if (validationErrors.length) {
-      validationErrors.forEach((error) => {
-        if (error.field === 'color') this.toastManagerError.showToast(error.name);
-        if (error.field === 'folderName') {
-          this.toastManagerError.showToast(error.name);
-          this.view.validationErrorInput();
-        }
-      });
+      this.validateAddingFolder(validationErrors);
       return;
     }
+
+    if (this.store.hasFolderWithName(folderName)) {
+      this.toastManagerError.showToast('Folder with such title is already exist.');
+      return;
+    }
+
     this.toastManagerSuccess.showToast('Folder was created!');
 
     const newFolder = new this.model({
@@ -88,13 +103,22 @@ export class FolderController {
     this.store.addFolder(newFolder);
     this.hideAddFolderModal();
     this.renderFolderList();
+
+    this.view.addClassToChosenFolder(newFolder.id);
+    this.taskController.init([newFolder]);
+  }
+
+  renameFolder(folderId, newName) {
+    const updatedFolder = this.store.renameFolder(folderId, newName);
+    if (this.store.folders.length) this.renderFolderList();
+    return updatedFolder;
   }
 
   renderFolders() {
     const fragment = document.createDocumentFragment();
     for (let folder of this.store.folders) {
       const folderNode = this.view.createFolder(folder.title, folder.color, folder.id);
-      fragment.appendChild(folderNode);
+      fragment.append(folderNode);
     }
     this.view.renderFolders(fragment);
   }
@@ -110,5 +134,27 @@ export class FolderController {
     if (this.store.folders.length === 0) {
       this.view.removeFolderListElement();
     }
+    const folders = this.store.folders;
+    this.taskController.removeAllFolderTasks(id, folders);
+  }
+
+  chooseFolder(folderId) {
+    const folder = this.store.getFolderById(folderId);
+    if (!folder) {
+      console.error('Folder not found');
+      return;
+    }
+    this.taskController.init([folder]);
+    this.view.addClassToChosenFolder(folderId);
+    this.view.turnOffFullHeightMode();
+    this.view.removeClassesForFolderParts();
+  }
+
+  showAllTasks() {
+    const folders = this.store.folders;
+    this.view.addClassToShowAllTasksBtn();
+    this.view.turnOnFullHeightMode();
+    this.taskController.init(folders);
+    this.view.addClassesForFolderParts();
   }
 }

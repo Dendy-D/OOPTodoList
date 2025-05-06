@@ -10,7 +10,9 @@ class FolderStore {
   }
 
   get folders() {
-    return [...this.#folders];
+    const data = [...this.#folders];
+    const sortedData = data.sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
+    return sortedData;
   }
 
   getFolderById(id) {
@@ -36,12 +38,12 @@ class FolderStore {
   }
 
   renameFolder(folderId, newName) {
-    this.#folders.map((folder) => {
-      if (folderId === folder.id) {
-        folder.title = newName;
-      }
-      return folder;
-    })
+    this.#folders = this.#folders.map((folder) => (folder.id === folderId ? { ...folder, title: newName } : folder));
+
+    const updatedFolder = this.getFolderById(folderId);
+    this.#storage.setItem(updatedFolder);
+
+    return updatedFolder;
   }
 }
 
