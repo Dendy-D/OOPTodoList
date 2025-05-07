@@ -195,4 +195,11 @@ export class FolderView extends View {
   removeClassesForFolderParts() {
     this.addFolderModal.classList.remove('multiple-add-folder-modal');
   }
+
+  scrollToTheBottomOfFolderList() {
+    const folderList = document.getElementById('folder-list');
+    if (folderList) {
+      folderList.scrollTo({ top: folderList.scrollHeight, behavior: 'smooth' });
+    }
+  }
 }

@@ -104,6 +104,8 @@ export class FolderController {
     this.hideAddFolderModal();
     this.renderFolderList();
 
+    this.view.scrollToTheBottomOfFolderList();
+
     this.view.addClassToChosenFolder(newFolder.id);
     this.taskController.init([newFolder]);
   }
