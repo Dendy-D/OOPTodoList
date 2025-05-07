@@ -413,9 +413,15 @@ body {
 
 .complete-icon {
   cursor: pointer;
+  color: #f2f2f2;
   fill: none;
   width: 20px;
   height: 20px;
+  transition: color 0.1s ease;
+}
+
+.complete-icon:hover {
+  color: #e6e6e6;
 }
 
 .add-task-form-btn {
