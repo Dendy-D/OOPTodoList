@@ -74,9 +74,17 @@ export class TaskController {
     this.view.setUncompleteTaskHandler(this.uncompleteTask);
   }
 
+  isMultiTasksModeOn() {
+    return this.folders.length > 1;
+  }
+
   addTaskForm(event) {
     this.view.hideAddTaskFormBtn(event);
     this.view.showAddTaskForm(event);
+
+    if (!this.isMultiTasksModeOn()) {
+      this.view.scrollToTheBottomOfTaskPanel();
+    }
   }
 
   focusTaskNameInput(event) {
@@ -129,7 +137,7 @@ export class TaskController {
 
   removeAllFolderTasks(folderId, folders) {
     this.store.removeAllFolderTasks(folderId);
-    if (this.folders.length > 1) {
+    if (this.isMultiTasksModeOn()) {
       this.renderAllTasks(folders);
       return;
     }

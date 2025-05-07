@@ -365,4 +365,8 @@ export class TaskView extends View {
       taskList.classList.add('multiple-task-list')
     })
   }
+
+  scrollToTheBottomOfTaskPanel() {
+    this.taskScreen.scrollTo({ top: this.taskScreen.scrollHeight, behavior: 'instant' });
+  }
 }
