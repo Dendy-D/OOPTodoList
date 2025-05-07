@@ -169,6 +169,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  z-index: 10;
 }
 
 .close-icon {
@@ -302,9 +303,10 @@ body {
   flex-shrink: 1;
   background-color: white;
   width: 100%;
-  padding: 56px 70px 60px 56px;
+  padding: 0 70px 60px 56px;
   max-height: 100%;
   overflow-y: auto;
+  position: relative;
 }
 
 .task-screen::-webkit-scrollbar {
@@ -322,12 +324,23 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 56px 70px 60px 56px;
 }
 
 .no-tasks-span {
   color: #c9d1d3;
   font-family: 'Montserrat', sans-serif;
   font-size: 32px;
+}
+
+.folder-with-hr {
+  background-color: white;
+  position: sticky;
+  will-change: transform;
+  top: 0;
+  padding-bottom: 1px;
+  z-index: 10;
+  padding-top: 56px;
 }
 
 .folder-title {
@@ -524,10 +537,6 @@ body {
   border: 1px solid #ff4d4f;
 }
 
-.multiple-task-panel {
-  margin-bottom: 50px;
-}
-
 .multiple-task-list {
   max-height: none;
   overflow: hidden;
@@ -536,6 +545,7 @@ body {
 .multiple-add-folder-modal {
   top: -160px;
 }
+
 /* Styles for toasters */
 
 .validation-error-toast {
