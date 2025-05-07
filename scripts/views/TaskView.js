@@ -308,6 +308,9 @@ export class TaskView extends View {
     const folderTitleBlock = this.createFolderTitle(folderTitle, folderTitleColor);
     const hr = this.createElement('hr', 'task-hr');
 
+    const folderTitleWithHr = this.createElement('div', 'folder-with-hr');
+    folderTitleWithHr.append(folderTitleBlock, hr)
+
     const taskPanel = this.createElement('div', 'task-panel');
     taskPanel.dataset.folderId = folderId;
 
@@ -321,7 +324,7 @@ export class TaskView extends View {
       lastChild.classList.add('last-task')
     }
     
-    taskPanel.append(folderTitleBlock, hr, taskList, addTaskFormBtn, addTaskForm);
+    taskPanel.append(folderTitleWithHr, taskList, addTaskFormBtn, addTaskForm);
     return taskPanel;
   }
 
@@ -357,7 +360,6 @@ export class TaskView extends View {
   }
 
   addClassesForTaskPanel(taskPanelFragment) {
-    taskPanelFragment.classList.add('multiple-task-panel');
     const taskLists = taskPanelFragment.querySelectorAll('.task-list');
     taskLists.forEach(taskList => {
       taskList.classList.add('multiple-task-list')
