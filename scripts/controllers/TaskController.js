@@ -20,7 +20,7 @@ export class TaskController {
     this.toastManagerError = new ToastManager(1, TOAST_TYPES.ERROR, 'error');
     this.toastManagerSuccess = new ToastManager(1, TOAST_TYPES.SUCCESS, 'success');
 
-    this.renameMediator = null;
+    this.folderOperationsMediator = null;
   }
 
   renderNoTasksSpan() {
@@ -64,7 +64,7 @@ export class TaskController {
     this.view.setCancelAddingTaskHandler((event) => this.cancelAddingTask(event));
     this.view.setAddTaskHandler((event, folderId) => this.addTask(event, folderId));
     this.view.setTaskNameInputHandler('focus', (event) => this.focusTaskNameInput(event));
-    this.view.setRemoveTaskHandler((taskId) => this.removeTask(taskId));
+    this.view.setRemoveTaskHandler((taskId, folderId) => this.removeTask(taskId, folderId));
     this.view.setEnableEditingFolderNameHandler((folderTitleElem, folderId, folderName) => this.enableEditingFolderName(folderTitleElem, folderId, folderName));
     this.view.setRenameFolderHandlers(
       (newName, folderTitleElem, folderId) => this.disableEditingFolderName(newName, folderTitleElem, folderId),
@@ -76,6 +76,16 @@ export class TaskController {
 
   isMultiTasksModeOn() {
     return this.folders.length > 1;
+  }
+
+  getFoldersFromFolderStore(folderId) {
+    let folders = null;
+    if (!this.isMultiTasksModeOn()) {
+      folders = [this.folderOperationsMediator.getFolder(folderId)];
+    } else {
+      folders = this.folderOperationsMediator.getAllFolders();
+    }
+    return folders;
   }
 
   addTaskForm(event) {
@@ -121,12 +131,14 @@ export class TaskController {
     this.store.addTask(newTask);
     this.view.showAddTaskFormBtn(event);
     this.view.hideAddTaskForm(event);
-    this.renderAllTasks(this.folders);
+    const folders = this.getFoldersFromFolderStore(folderId);
+    this.renderAllTasks(folders);
   }
 
-  removeTask(taskId) {
+  removeTask(taskId, folderId) {
+    const folders = this.getFoldersFromFolderStore(folderId);
     this.store.removeTask(taskId);
-    this.renderAllTasks(this.folders);
+    this.renderAllTasks(folders);
   }
 
   cancelAddingTask(event) {
@@ -166,38 +178,41 @@ export class TaskController {
     return fragment;
   }
 
-  setRenameMediator(mediator) {
-    this.renameMediator = mediator;
+  setFolderOperationsMediator(mediator) {
+    this.folderOperationsMediator = mediator;
   }
 
   enableEditingFolderName(folderTitleElem, folderId, newFolderName) {
-    const folder = this.store.getFolderById(this.folders, folderId);
+    const folder = this.folderOperationsMediator.getFolder(folderId);
     this.view.turnFolderNameIntoInput(folderTitleElem, newFolderName, folder.color);
   }
 
   disableEditingFolderName(newName, folderTitleElem, folderId) {
-    const folder = this.store.getFolderById(this.folders, folderId);
+    const folder = this.folderOperationsMediator.getFolder(folderId);
     this.view.turnFolderNameInputIntoText(folderTitleElem, newName, folder.color);
-    this.renameMediator.execute(folderId, newName);
+    this.folderOperationsMediator.rename(folderId, newName);
   }
 
-  cancelFolderRename(folderTitleElem, folderId, originalName) {
-    const folder = this.store.getFolderById(this.folders, folderId);
+  cancelFolderRename(folderTitleElem, folderId) {
+    const folder = this.folderOperationsMediator.getFolder(folderId);
     const originalColor = folder.color;
-    this.view.turnFolderNameInputIntoText(folderTitleElem, originalName, originalColor);
+    const originalTitle = folder.title;
+    this.view.turnFolderNameInputIntoText(folderTitleElem, originalTitle, originalColor);
   }
 
   onFolderRenamed(updatedFolder) {
     this.folder = updatedFolder;
   }
 
-  completeTask(taskId) {
+  completeTask(taskId, folderId) {
+    const folders = this.getFoldersFromFolderStore(folderId);
     this.store.completeTask(taskId);
-    this.renderAllTasks(this.folders);
+    this.renderAllTasks(folders);
   }
 
-  uncompleteTask(taskId) {
+  uncompleteTask(taskId, folderId) {
+    const folders = this.getFoldersFromFolderStore(folderId);
     this.store.unCompleteTask(taskId);
-    this.renderAllTasks(this.folders);
+    this.renderAllTasks(folders);
   }
 }
