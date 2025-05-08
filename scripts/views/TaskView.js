@@ -92,7 +92,9 @@ export class TaskView extends View {
   removeTaskHandler(event, handler) {
     if (event.target.closest('.remove-task-btn')) {
       const taskId = event.target.closest('.task').dataset.id;
-      if (taskId) handler(taskId);
+      const taskPanel = event.target.closest('.task-panel');
+      const folderId = taskPanel.dataset.folderId;
+      if (taskId) handler(taskId, folderId);
     }
   }
 
@@ -125,6 +127,7 @@ export class TaskView extends View {
       if (isProcessing) return;
 
       const input = event.target.closest('.rename-folder-input');
+
       const taskPanel = event.target.closest('.task-panel');
       const folderId = taskPanel.dataset.folderId;
       if (!input) return;
@@ -132,8 +135,8 @@ export class TaskView extends View {
       if (event.type === 'keydown' && event.key === 'Escape') {
         isProcessing = true;
         try {
-          cancelHandler(input.parentElement, folderId, input.value);
           event.preventDefault();
+          cancelHandler(input.parentElement, folderId);
         } finally {
           isProcessing = false;
         }
@@ -239,8 +242,10 @@ export class TaskView extends View {
         if (copleteHoverIcon) {
           const task = event.target.closest('.task');
           const taskId = task.dataset.id;
+          const taskPanel = event.target.closest('.task-panel');
+          const folderId = taskPanel.dataset.folderId;
           this.completeTask(copleteHoverIcon.parentElement, copleteHoverIcon);
-          handler(taskId);
+          handler(taskId, folderId);
         }
       });
     }
@@ -253,8 +258,10 @@ export class TaskView extends View {
         if (completeIcon) {
           const task = event.target.closest('.task');
           const taskId = task.dataset.id;
+          const taskPanel = event.target.closest('.task-panel');
+          const folderId = taskPanel.dataset.folderId;
           this.unCompleteTask(completeIcon.parentElement, completeIcon);
-          handler(taskId);
+          handler(taskId, folderId);
         }
       });
     }

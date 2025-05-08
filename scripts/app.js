@@ -3,7 +3,7 @@ import { FolderModel } from './models/FolderModel.js';
 import { FolderView } from './views/FolderView.js';
 import FolderStore from './stores/FolderStore.js';
 
-import { RenameMediator } from './mediators/RenameMediator.js';
+import { FolderOperationsMediator } from './mediators/FolderOperationsMediator.js';
 
 import { TaskController } from './controllers/TaskController.js';
 import { TaskModel } from './models/TaskModel.js';
@@ -17,8 +17,8 @@ const taskController = new TaskController(TaskModel, TaskStore, taskView, TaskFa
 const folderView = new FolderView();
 const folderController = new FolderController(FolderModel, FolderStore, folderView, taskController);
 
-const renameMediator = new RenameMediator(folderController, taskController);
+const folderOperationsMediator = new FolderOperationsMediator(folderController, taskController);
 
-taskController.setRenameMediator(renameMediator);
+taskController.setFolderOperationsMediator(folderOperationsMediator);
 
 folderController.init();
