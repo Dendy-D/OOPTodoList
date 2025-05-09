@@ -13,8 +13,8 @@ export class TaskController {
     this.addTaskForm = this.addTaskForm.bind(this);
     this.focusTaskNameInput = this.focusTaskNameInput.bind(this);
     this.removeTask = this.removeTask.bind(this);
-    this.enableEditingFolderName = this.enableEditingFolderName.bind(this);
-    this.disableEditingFolderName = this.disableEditingFolderName.bind(this);
+    this.enableEditingFolderTitle = this.enableEditingFolderTitle.bind(this);
+    this.disableEditingFolderTitle = this.disableEditingFolderTitle.bind(this);
     this.completeTask = this.completeTask.bind(this);
     this.uncompleteTask = this.uncompleteTask.bind(this);
     this.toastManagerError = new ToastManager(1, TOAST_TYPES.ERROR, 'error');
@@ -65,9 +65,9 @@ export class TaskController {
     this.view.setAddTaskHandler((event, folderId) => this.addTask(event, folderId));
     this.view.setTaskNameInputHandler('focus', (event) => this.focusTaskNameInput(event));
     this.view.setRemoveTaskHandler((taskId, folderId) => this.removeTask(taskId, folderId));
-    this.view.setEnableEditingFolderNameHandler((folderTitleElem, folderId, folderName) => this.enableEditingFolderName(folderTitleElem, folderId, folderName));
+    this.view.setEnableEditingFolderTitleHandler((folderTitleElem, folderId, folderTitle) => this.enableEditingFolderTitle(folderTitleElem, folderId, folderTitle));
     this.view.setRenameFolderHandlers(
-      (newName, folderTitleElem, folderId) => this.disableEditingFolderName(newName, folderTitleElem, folderId),
+      (newName, folderTitleElem, folderId) => this.disableEditingFolderTitle(newName, folderTitleElem, folderId),
       (folderTitleElem, folderId, originalName) => this.cancelFolderRename(folderTitleElem, folderId, originalName)
     );
     this.view.setCompleteTaskHandler(this.completeTask);
@@ -182,22 +182,24 @@ export class TaskController {
     this.folderOperationsMediator = mediator;
   }
 
-  enableEditingFolderName(folderTitleElem, folderId, newFolderName) {
+  enableEditingFolderTitle(folderTitleElem, folderId, newFolderTitle) {
     const folder = this.folderOperationsMediator.getFolder(folderId);
-    this.view.turnFolderNameIntoInput(folderTitleElem, newFolderName, folder.color);
+    this.view.turnFolderTitleIntoInput(folderTitleElem, newFolderTitle, folder.color);
   }
 
-  disableEditingFolderName(newName, folderTitleElem, folderId) {
+  disableEditingFolderTitle(newTitle, folderTitleElem, folderId) {
     const folder = this.folderOperationsMediator.getFolder(folderId);
-    this.view.turnFolderNameInputIntoText(folderTitleElem, newName, folder.color);
-    this.folderOperationsMediator.rename(folderId, newName);
+    const dublicatingNameValidationFlag = folder.title !== newTitle;
+    const updatedFolder = this.folderOperationsMediator.rename(folderId, newTitle, dublicatingNameValidationFlag);
+    const updatedFolderTitle = updatedFolder ? newTitle : folder.title;
+    this.view.turnFolderTitleInputIntoText(folderTitleElem, updatedFolderTitle, folder.color);
   }
 
   cancelFolderRename(folderTitleElem, folderId) {
     const folder = this.folderOperationsMediator.getFolder(folderId);
     const originalColor = folder.color;
     const originalTitle = folder.title;
-    this.view.turnFolderNameInputIntoText(folderTitleElem, originalTitle, originalColor);
+    this.view.turnFolderTitleInputIntoText(folderTitleElem, originalTitle, originalColor);
   }
 
   onFolderRenamed(updatedFolder) {
