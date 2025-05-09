@@ -27,6 +27,10 @@ export class TaskController {
     this.view.renderNoTasksSpan();
   }
 
+  renderEmptyTasksPage() {
+    this.view.renderEmptyTasksPage();
+  }
+
   init(folders) {
     this.folders = folders;
     this.destroy();
@@ -154,7 +158,7 @@ export class TaskController {
       return;
     }
     if (this.folder && this.folder.id === folderId) {
-      this.view.renderEmptyTasksPage();
+      this.renderEmptyTasksPage();
     }
   }
 

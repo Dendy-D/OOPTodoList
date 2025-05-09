@@ -162,14 +162,22 @@ export class FolderController {
     this.taskController.init([folder]);
     this.view.addClassToChosenFolder(folderId);
     this.view.turnOffFullHeightMode();
-    this.view.removeClassesForFolderParts();
+    this.view.removeClassForFolderModal();
   }
 
   showAllTasks() {
+    const isShowAllTasksBtnActive = this.view.isShowAllTasksBtnActive();
+    if (isShowAllTasksBtnActive) {
+      this.view.turnOffFullHeightMode();
+      this.view.removeClassForFolderModal();
+      this.view.removeChosenClassShowAllTasksBtn();
+      this.taskController.renderEmptyTasksPage();
+      return;
+    }
     const folders = this.store.folders;
     this.view.addClassToShowAllTasksBtn();
     this.view.turnOnFullHeightMode();
     this.taskController.init(folders);
-    this.view.addClassesForFolderParts();
+    this.view.addClassForFolderModal();
   }
 }

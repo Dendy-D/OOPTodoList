@@ -15,7 +15,8 @@ export class TaskView extends View {
   renderEmptyTasksPage() {
     this.taskScreen.classList.add('no-tasks');
     this.noTasksSpan.classList.remove('hidden');
-    this.taskScreen.lastElementChild.remove();
+    const taskScreenFirstChild = this.taskScreen.firstChild;
+    this.taskScreen.replaceChildren(taskScreenFirstChild);
   }
 
   createAddTaskFormBtn() {
