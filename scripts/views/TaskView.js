@@ -75,8 +75,9 @@ export class TaskView extends View {
 
   setAddTaskFormHandler(handler) {
     this.setHandler('addTaskForm', this.taskScreen, 'click', (event) => {
-      if (event.target.closest('.add-task-form-btn')) {
-        handler(event);
+      const addTaskFormBtn = event.target.closest('.add-task-form-btn');
+      if (addTaskFormBtn) {
+        handler(event, addTaskFormBtn);
       }
     })
   }
@@ -375,7 +376,18 @@ export class TaskView extends View {
     })
   }
 
-  scrollToTheBottomOfTaskPanel() {
-    this.taskScreen.scrollTo({ top: this.taskScreen.scrollHeight, behavior: 'instant' });
+  scrollDownIfNeeded(bounding) {
+    const threshold = 100;
+    if (bounding.bottom + threshold > this.taskScreen.offsetHeight) {
+      this.taskScreen.scrollBy(0, 150);
+    }
+  }
+
+  setTaskScreenScrollToTheTop() {
+    this.taskScreen.scrollTo({ top: 0 });
+  }
+
+  getBoundingClientRectOfElem(elem) {
+    return elem.getBoundingClientRect();
   }
 }
