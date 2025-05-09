@@ -35,6 +35,7 @@ export class TaskController {
     this.folders = folders;
     this.destroy();
     this.setUpEventListeners();
+    this.view.setTaskScreenScrollToTheTop();
     if (folders.length > 1) {
       this.renderAllTasks(folders);
       console.log('Task controller was initialized');
@@ -64,7 +65,7 @@ export class TaskController {
   }
 
   setUpEventListeners() {
-    this.view.setAddTaskFormHandler((event) => this.addTaskForm(event));
+    this.view.setAddTaskFormHandler((event, addTaskFormBtn) => this.addTaskForm(event, addTaskFormBtn));
     this.view.setCancelAddingTaskHandler((event) => this.cancelAddingTask(event));
     this.view.setAddTaskHandler((event, folderId) => this.addTask(event, folderId));
     this.view.setTaskNameInputHandler('focus', (event) => this.focusTaskNameInput(event));
@@ -92,13 +93,11 @@ export class TaskController {
     return folders;
   }
 
-  addTaskForm(event) {
+  addTaskForm(event, addTaskFormBtn) {
+    const bounding = this.view.getBoundingClientRectOfElem(addTaskFormBtn);
     this.view.hideAddTaskFormBtn(event);
     this.view.showAddTaskForm(event);
-
-    if (!this.isMultiTasksModeOn()) {
-      this.view.scrollToTheBottomOfTaskPanel();
-    }
+    this.view.scrollDownIfNeeded(bounding);
   }
 
   focusTaskNameInput(event) {
