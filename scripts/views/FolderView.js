@@ -108,6 +108,10 @@ export class FolderView extends View {
         folder.classList.remove('chosenFolder');
       }
     }
+    this.removeChosenClassShowAllTasksBtn();
+  }
+
+  removeChosenClassShowAllTasksBtn() {
     this.showAllTasksBtn.classList.remove('chosenFolder');
   }
 
@@ -149,6 +153,10 @@ export class FolderView extends View {
     this.showAllTasksBtn.addEventListener('click', handler);
   }
 
+  isShowAllTasksBtnActive() {
+    return this.showAllTasksBtn.classList.contains('chosenFolder');
+  }
+
   setRemoveFolderHandler(handler) {
     this.folderPanel.addEventListener('click', (event) => {
       if (event.target.closest('.remove-folder-btn')) {
@@ -188,11 +196,11 @@ export class FolderView extends View {
     this.todoApp.classList.remove('full-height-mode');
   }
 
-  addClassesForFolderParts() {
+  addClassForFolderModal() {
     this.addFolderModal.classList.add('multiple-add-folder-modal');
   }
 
-  removeClassesForFolderParts() {
+  removeClassForFolderModal() {
     this.addFolderModal.classList.remove('multiple-add-folder-modal');
   }
 
