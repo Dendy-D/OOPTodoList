@@ -88,7 +88,7 @@ export class FolderController {
     }
 
     if (this.store.hasFolderWithName(folderName)) {
-      this.toastManagerError.showToast('Folder with such title is already exist.');
+      this.toastManagerError.showToast('Folder with this title already exists.');
       return;
     }
 
@@ -110,7 +110,20 @@ export class FolderController {
     this.taskController.init([newFolder]);
   }
 
-  renameFolder(folderId, newName) {
+  renameFolder(folderId, newName, dublicatingNameValidationFlag) {
+    const validationErrors = this.model.validate(newName, '_');
+    if (validationErrors.length) {
+      this.validateAddingFolder(validationErrors);
+      return;
+    }
+
+    if (this.store.hasFolderWithName(newName)) {
+      if (dublicatingNameValidationFlag) {
+        this.toastManagerError.showToast('Folder with this title already exists.');
+      }
+      return;
+    }
+
     const updatedFolder = this.store.renameFolder(folderId, newName);
     if (this.store.folders.length) this.renderFolderList();
     return updatedFolder;

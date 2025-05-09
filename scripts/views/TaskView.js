@@ -102,15 +102,15 @@ export class TaskView extends View {
     this.setHandler('removeTask', this.taskScreen, 'click', (event) => this.removeTaskHandler(event, handler));
   }
 
-  turnFolderNameIntoInput(folderTitleElem, folderName, folderTitleColor) {
-    const folderNameInputColorClass = folderTitleColor.replace('-folder-color', '-text-color');
-    const folderNameInput = this.createElement('input', `rename-folder-input ${folderNameInputColorClass}`, folderName);
+  turnFolderTitleIntoInput(folderTitleElem, folderTitle, folderTitleColor) {
+    const folderTitleInputColorClass = folderTitleColor.replace('-folder-color', '-text-color');
+    const folderTitleInput = this.createElement('input', `rename-folder-input ${folderTitleInputColorClass}`, folderTitle);
     const oldFolderTitle = folderTitleElem.firstChild;
-    oldFolderTitle.replaceWith(folderNameInput);
-    folderNameInput.focus();
+    oldFolderTitle.replaceWith(folderTitleInput);
+    folderTitleInput.focus();
   }
 
-  turnFolderNameInputIntoText(folderTitleElem, newName, folderTitleColor) {
+  turnFolderTitleInputIntoText(folderTitleElem, newName, folderTitleColor) {
     const input = folderTitleElem.firstChild;
     if (!input || !input.isConnected) return;
 
@@ -160,18 +160,19 @@ export class TaskView extends View {
     this.setHandler('folderRenameKeys', this.taskScreen, 'keydown', handleEvent);
   }
 
-  setEnableEditingFolderNameHandler(handler) {
-    this.setHandler('renameFolder', this.taskScreen, 'click', (event) => this.editFolderNameHandler(event, handler));
+  setEnableEditingFolderTitleHandler(handler) {
+    this.setHandler('renameFolder', this.taskScreen, 'click', (event) => this.editFolderTitleHandler(event, handler));
   }
 
-  editFolderNameHandler(event, handler) {
+  editFolderTitleHandler(event, handler) {
+    if (event.target.closest('.rename-folder-input')) return;
     const taskPanel = event.target.closest('.task-panel');
     if (taskPanel) {
       const folderId = taskPanel.dataset.folderId;
-      const folderName = taskPanel.querySelector('.folder-title h1').textContent;
+      const folderTitle = taskPanel.querySelector('.folder-title h1').textContent;
       if (event.target.closest('.edit-icon')) {
         const folderTitleElem = event.target.closest('.folder-title');
-        if (folderTitleElem) handler(folderTitleElem, folderId, folderName);
+        if (folderTitleElem) handler(folderTitleElem, folderId, folderTitle);
       }
     }
   }

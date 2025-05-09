@@ -4,9 +4,12 @@ export class FolderOperationsMediator {
     this.taskCtrl = taskCtrl;
   }
 
-  rename(folderId, newName) {
-    const folder = this.folderCtrl.renameFolder(folderId, newName);
-    this.taskCtrl.onFolderRenamed(folder);
+  rename(folderId, newName, dublicatingNameValidationFlag) {
+    const folder = this.folderCtrl.renameFolder(folderId, newName, dublicatingNameValidationFlag);
+    if (folder) {
+      this.taskCtrl.onFolderRenamed(folder);
+    }
+    return folder;
   }
 
   getFolder(folderId) {
